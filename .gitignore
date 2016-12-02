@@ -1,0 +1,8 @@
+*.sublime-project
+*.sublime-workspace
+.idea/
+*.sublime-project
+.idea
+/nbproject/private/
+nbproject/
+.DS_Store

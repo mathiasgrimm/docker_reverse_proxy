@@ -1,0 +1,53 @@
+# this is a template file
+# make your own file based on this file
+# replace the domains and use the correct ports
+# save your template with the .conf extension
+# eg.: myapp.conf
+#
+# every template present in the nginx/sites-enabled will be active
+# after adding/removing a new template, make sure to restart your docker container
+
+server {
+    listen 80;
+    # ------------------------
+    # use your domains here
+    # ------------------------
+    server_name myapp.dev; # <-----
+
+    location / {
+        # ---------------------------
+        # Use the correct port here
+        # ---------------------------
+        proxy_pass http://localhost:10080; # <-----
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate /etc/nginx/ssl/nginx.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+    # ------------------------
+    # use your domains here
+    # ------------------------
+    server_name myapp.dev; # <-----
+
+    location / {
+
+        # ---------------------------
+        # Use the correct port here
+        # ---------------------------
+        proxy_pass https://localhost:10443; # <-----
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
